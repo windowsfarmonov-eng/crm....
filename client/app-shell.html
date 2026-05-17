@@ -1,0 +1,688 @@
+<div id="lightbox" onclick="closeLightbox()">
+  <button id="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
+<div id="login-screen" style="display:none">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="login-logo-mark" id="login-logo-img-wrap"></div>
+      <div>
+        <div class="login-logo-name" id="login-crm-name">EduManage</div>
+        <div class="login-logo-tag">v8.0 • Zamonaviy CRM</div>
+      </div>
+    </div>
+    <div class="login-title">Tizimga kirish</div>
+    <div class="login-sub">Ta'lim boshqaruv tizimiga xush kelibsiz</div>
+    <div class="login-err" id="login-err">Login yoki parol noto'g'ri!</div>
+    <div class="login-fg">
+      <label>Login</label>
+      <input type="text" id="login-user" placeholder="admin" autocomplete="username" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <div class="login-fg">
+      <label>Parol</label>
+      <input type="password" id="login-pass" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <button class="login-btn" onclick="doLogin()">Kirish →</button>
+    <div class="login-hint">🔐 Demo: admin / admin123</div>
+  </div>
+</div>
+<div class="layout" id="app" style="display:none">
+<aside class="sidebar" id="sidebar">
+  <div class="logo">
+    <div class="logo-mark" id="sidebar-logo-mark"></div>
+    <div>
+      <div class="logo-name" id="sidebar-crm-name">EduManage</div>
+      <div class="logo-tag">v8.0 • CRM</div>
+    </div>
+  </div>
+  <div class="lang-row">
+    <button class="lang-btn" id="lb-uz" onclick="setLang('uz',this)">O'Z</button>
+    <button class="lang-btn" id="lb-ru" onclick="setLang('ru',this)">РУ</button>
+    <button class="lang-btn" id="lb-en" onclick="setLang('en',this)">EN</button>
+  </div>
+  <div class="nav-label" data-t="menu">Menyu</div>
+  <button class="nav-btn" id="nav-dashboard" onclick="go('dashboard',this)">
+    <span class="nav-ic">📊</span><span data-t="dashboard">Dashboard</span>
+  </button>
+  <button class="nav-btn" id="nav-courses" onclick="go('courses',this)">
+    <span class="nav-ic">📚</span><span data-t="courses">Kurslar</span>
+    <span class="nav-count" id="nc-courses">0</span>
+  </button>
+  <button class="nav-btn" id="nav-groups" onclick="go('groups',this)">
+    <span class="nav-ic">👥</span><span data-t="groups">Guruhlar</span>
+    <span class="nav-count" id="nc-groups">0</span>
+  </button>
+  <button class="nav-btn" id="nav-mentors" onclick="go('mentors',this)">
+    <span class="nav-ic">🎓</span><span data-t="mentors">Mentorlar</span>
+    <span class="nav-count" id="nc-mentors">0</span>
+  </button>
+  <button class="nav-btn" id="nav-mentor-dash" onclick="go('mentor-dash',this)" style="display:none">
+    <span class="nav-ic">📊</span><span data-t="nav_mentor_dash">Dashboard</span>
+  </button>
+  <button class="nav-btn" id="nav-mentors-my" onclick="go('mentors-my',this)" style="display:none">
+    <span class="nav-ic">📅</span><span data-t="nav_my_schedule">Mening jadvalim</span>
+  </button>
+  <button class="nav-btn" id="nav-mentor-chat" onclick="go('mentor-chat',this)" style="display:none">
+    <span class="nav-ic">💬</span><span data-t="nav_chat">Chat</span>
+    <span class="nav-count" id="nc-chat" style="display:none">0</span>
+  </button>
+  <button class="nav-btn" id="nav-mentor-ai" onclick="go('mentor-ai',this)" style="display:none">
+    <span class="nav-ic">🤖</span><span>AI Yordamchi</span>
+  </button>
+  <button class="nav-btn" id="nav-tests-mentor" onclick="go('tests',this)" style="display:none">
+    <span class="nav-ic">📝</span><span data-t="nav_tests">Testlar</span>
+    <span class="nav-count" id="nc-tests-mentor">0</span>
+  </button>
+  <button class="nav-btn" id="nav-grades-mentor" onclick="go('grades',this)" style="display:none">
+    <span class="nav-ic">🏅</span><span data-t="nav_grades">Baholash</span>
+  </button>
+  <button class="nav-btn" id="nav-mentor-videos" onclick="go('mentor-videos',this)" style="display:none">
+    <span class="nav-ic">🎬</span><span id="nav-mentor-videos-lbl">Darsliklar</span>
+    <span class="nav-count" id="nc-mentor-videos" style="display:none">0</span>
+  </button>
+  <button class="nav-btn" id="nav-student-my" onclick="go('student-my',this)" style="display:none">
+    <span class="nav-ic">🏠</span><span data-t="nav_student_dash">Dashboard</span>
+  </button>
+  <button class="nav-btn" id="nav-student-schedule" onclick="go('student-schedule',this)" style="display:none">
+    <span class="nav-ic">📅</span><span data-t="nav_schedule">Dars jadvali</span>
+  </button>
+  <button class="nav-btn" id="nav-student-rating" onclick="go('student-rating',this)" style="display:none">
+    <span class="nav-ic">🏆</span><span data-t="nav_rating">Guruh reytingi</span>
+  </button>
+  <button class="nav-btn" id="nav-student-grades" onclick="go('student-grades',this)" style="display:none">
+    <span class="nav-ic">🏅</span><span data-t="nav_grades">Baholash</span>
+  </button>
+  <button class="nav-btn" id="nav-student-tests" onclick="go('student-tests',this)" style="display:none">
+    <span class="nav-ic">📝</span><span data-t="nav_tests">Testlar</span>
+    <span class="nav-count" id="nc-student-tests" style="display:none">0</span>
+  </button>
+  <button class="nav-btn" id="nav-student-chat" onclick="go('student-chat',this)" style="display:none">
+    <span class="nav-ic">💬</span><span data-t="nav_chat">Chat</span>
+  </button>
+  <button class="nav-btn" id="nav-student-ai" onclick="go('student-ai',this)" style="display:none">
+    <span class="nav-ic">🤖</span><span>AI Yordamchi</span>
+  </button>
+  <button class="nav-btn" id="nav-student-videos" onclick="go('student-videos',this)" style="display:none">
+    <span class="nav-ic">🎬</span><span id="nav-student-videos-lbl">Darsliklar</span>
+  </button>
+  <button class="nav-btn" id="nav-student-goals" onclick="go('student-goals',this)" style="display:none">
+    <span class="nav-ic">🎯</span><span data-t="goals">Maqsadlar</span>
+  </button>
+  <button class="nav-btn" id="nav-students" onclick="go('students',this)">
+    <span class="nav-ic">🧑‍💻</span><span data-t="students">Talabalar</span>
+    <span class="nav-count" id="nc-students">0</span>
+  </button>
+  <button class="nav-btn" id="nav-finance" onclick="go('finance',this)">
+    <span class="nav-ic">💰</span><span data-t="finance">Moliya</span>
+  </button>
+  <button class="nav-btn" id="nav-settings" onclick="go('settings',this)">
+    <span class="nav-ic">⚙️</span><span data-t="settings">Sozlamalar</span>
+  </button>
+  <div class="sidebar-foot">
+    <div style="padding:0 8px 12px">
+      <div class="storage-badge" id="storage-status">💾 Saqlangan</div>
+    </div>
+    <div class="user-row">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="u-av">AD</div>
+        <div>
+          <div class="u-name">Admin</div>
+          <div class="u-role" data-t="super_admin">Super Admin</div>
+        </div>
+      </div>
+      <button class="logout-btn" onclick="doLogout()" data-t="logout">Chiqish</button>
+    </div>
+  </div>
+</aside>
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+<div class="main">
+  <div class="topbar">
+    <button class="hamburger-btn" id="hamburger-btn" onclick="toggleSidebar()">☰</button>
+    <div>
+      <div class="topbar-title" id="tb-title">Dashboard</div>
+      <div class="topbar-sub" id="tb-sub">Umumiy ko'rinish</div>
+    </div>
+    <div class="topbar-right">
+      <button class="btn btn-sm btn-warning" onclick="resetData()" id="btn-reset">🔄 Reset</button>
+      <button class="btn btn-sm" onclick="exportData()" id="btn-export">⬇ Export</button>
+    </div>
+  </div>
+  <div class="scroll" id="scroll">
+    <!-- DASHBOARD -->
+    <div id="panel-dashboard" class="panel">
+      <div class="dash-stats-row" id="dash-stats-row"></div>
+      <div id="dash-detail-area"></div>
+      <div class="chart-row" id="dash-charts"></div>
+    </div>
+
+    <!-- COURSES -->
+    <div id="panel-courses" class="panel">
+      <div class="toolbar">
+        <div class="search-box"><input type="text" id="s-course" placeholder="" oninput="renderCourses()" data-ph="search_course"></div>
+        <button class="btn btn-primary" onclick="openModal('course')" data-t="add_course">+ Kurs qo'shish</button>
+      </div>
+      <div class="card-grid" id="course-grid"></div>
+    </div>
+
+    <!-- GROUPS -->
+    <div id="panel-groups" class="panel">
+      <div class="toolbar">
+        <div class="search-box"><input type="text" id="s-group" placeholder="" oninput="resetGroupPage();renderGroups()" data-ph="search_group"></div>
+        <button class="btn btn-primary" onclick="openModal('group')" data-t="add_group">+ Guruh qo'shish</button>
+      </div>
+      <div class="toolbar-row2">
+        <select class="fsel" id="fg-course" onchange="resetGroupPage();renderGroups()"><option value="" data-t="all_courses">Barcha kurslar</option></select>
+        <select class="fsel" id="fg-mentor" onchange="resetGroupPage();renderGroups()"><option value="" data-t="all_mentors">Barcha mentorlar</option></select>
+        <select class="fsel" id="fg-duration" onchange="resetGroupPage();renderGroups()">
+          <option value="" data-t="all_duration">Barcha davomiylik</option>
+          <option value="1-5">1 – 5 oy</option>
+          <option value="5-12">5 – 12 oy</option>
+        </select>
+        <select class="fsel" id="fg-days" onchange="resetGroupPage();renderGroups()">
+          <option value="" data-t="all_days">Barcha kunlar</option>
+          <option value="Du">Dushanba</option><option value="Se">Seshanba</option>
+          <option value="Ch">Chorshanba</option><option value="Pa">Payshanba</option>
+          <option value="Ju">Juma</option><option value="Sh">Shanba</option>
+        </select>
+        <select class="fsel" id="fg-status" onchange="resetGroupPage();renderGroups()">
+          <option value="" data-t="all_status">Barcha holat</option>
+          <option value="Faol">✅ Faol</option>
+          <option value="Arxiv">📦 Arxiv</option>
+          <option value="Man etilgan">🚫 Man etilgan</option>
+        </select>
+      </div>
+      <div class="card-grid" id="group-grid"></div>
+      <div class="pagination" id="group-pagination"></div>
+    </div>
+
+    <!-- MENTOR DASHBOARD -->
+    <div id="panel-mentor-dash" class="panel">
+      <div id="mentor-dash-wrap"></div>
+    </div>
+
+    <!-- MENTOR MY SCHEDULE -->
+    <div id="panel-mentors-my" class="panel">
+      <div id="my-schedule-wrap"></div>
+    </div>
+
+    <!-- MENTOR CHAT -->
+    <div id="panel-mentor-chat" class="panel">
+      <div id="mentor-chat-wrap" style="height:100%;display:flex;flex-direction:column"></div>
+    </div>
+
+    <!-- MENTOR VIDEOS PANEL -->
+    <div id="panel-mentor-videos" class="panel">
+      <div id="mentor-videos-wrap"></div>
+    </div>
+
+    <!-- STUDENT VIDEOS PANEL -->
+    <div id="panel-student-videos" class="panel">
+      <div id="student-videos-wrap"></div>
+    </div>
+
+    <!-- STUDENT MY DASHBOARD -->
+    <div id="panel-student-my" class="panel">
+      <div id="student-my-wrap"></div>
+    </div>
+
+    <!-- STUDENT SCHEDULE -->
+    <div id="panel-student-schedule" class="panel">
+      <div id="student-schedule-wrap"></div>
+    </div>
+
+    <!-- STUDENT RATING -->
+    <div id="panel-student-rating" class="panel">
+      <div id="student-rating-wrap"></div>
+    </div>
+
+    <!-- STUDENT GRADES -->
+    <div id="panel-student-grades" class="panel">
+      <div id="student-grades-wrap"></div>
+    </div>
+
+    <!-- STUDENT TESTS -->
+    <div id="panel-student-tests" class="panel">
+      <div id="student-tests-wrap"></div>
+    </div>
+
+    <!-- STUDENT CHAT -->
+    <div id="panel-student-chat" class="panel">
+      <div id="student-chat-wrap" style="height:100%;display:flex;flex-direction:column"></div>
+    </div>
+
+    <!-- MENTORS -->
+    <div id="panel-mentors" class="panel">
+      <div class="toolbar">
+        <div class="search-box"><input type="text" id="s-mentor" placeholder="" oninput="renderMentors()" data-ph="search_mentor"></div>
+        <button class="btn btn-primary" onclick="openModal('mentor')" data-t="add_mentor">+ Mentor qo'shish</button>
+      </div>
+      <div class="exp-filter-group" id="exp-filter-row">
+        <span style="font-size:12px;color:var(--text3);font-weight:600" data-t="exp_filter">Tajriba:</span>
+        <button class="exp-pill active" onclick="setExpFilter('',this)" data-t="all_exp">Barchasi</button>
+        <button class="exp-pill" onclick="setExpFilter('1',this)">1 yil</button>
+        <button class="exp-pill" onclick="setExpFilter('2',this)">2 yil</button>
+        <button class="exp-pill" onclick="setExpFilter('3',this)">3 yil</button>
+        <button class="exp-pill" onclick="setExpFilter('4',this)">4 yil</button>
+        <button class="exp-pill" onclick="setExpFilter('5+',this)" data-t="exp_5plus">5+ yil</button>
+      </div>
+      <div class="list-box" id="mentor-list"></div>
+    </div>
+
+    <!-- STUDENTS -->
+    <div id="panel-students" class="panel">
+      <div class="toolbar">
+        <div class="search-box"><input type="text" id="s-student" placeholder="" oninput="renderStudents()" data-ph="search_student"></div>
+        <select class="fsel" id="filter-student-status" onchange="renderStudents()">
+          <option value="" data-t="all_status">Barcha holat</option>
+          <option value="Aktiv">✅ Aktiv</option>
+          <option value="Faolsiz">⛔ Faolsiz</option>
+          <option value="Muzlatilgan">❄️ Muzlatilgan</option>
+          <option value="Probatsiya">🔶 Probatsiya</option>
+          <option value="Arxiv">📦 Arxiv</option>
+        </select>
+        <select class="fsel" id="filter-student-debt" onchange="renderStudents()">
+          <option value="" data-t="all_payment">Barcha to'lov</option>
+          <option value="1" data-t="debtor">💸 Qarzdor</option>
+          <option value="0" data-t="paid">✅ To'lagan</option>
+        </select>
+        <select class="fsel" id="filter-student-course" onchange="renderStudents()">
+          <option value="" data-t="all_direction">Barcha yo'nalish</option>
+        </select>
+        <button class="btn btn-primary" onclick="openModal('student')" data-t="add_student">+ Talaba qo'shish</button>
+      </div>
+      <div class="list-box" id="student-list"></div>
+    </div>
+
+    <!-- TESTS -->
+    <div id="panel-tests" class="panel">
+      <div id="tests-wrap"></div>
+    </div>
+
+    <!-- GRADES -->
+    <div id="panel-grades" class="panel">
+      <div id="grades-wrap"></div>
+    </div>
+
+    <!-- ===================== MOLIYA PANELI ===================== -->
+    <div id="panel-finance" class="panel">
+      <!-- Oy tanlash -->
+      <div class="fin-month-nav" id="fin-month-nav"></div>
+
+      <!-- Umumiy balans kartochkalar -->
+      <div class="fin-summary-row" id="fin-summary-row"></div>
+
+      <!-- Kirim/Chiqim qo'shish tugmalari -->
+      <div class="fin-action-bar">
+        <button class="btn btn-primary" onclick="openFinModal('income')">➕ Kirim qo'shish</button>
+        <button class="btn" style="background:var(--orange-light);color:var(--orange-text);border-color:rgba(234,88,12,.3)" onclick="openFinModal('expense')">➖ Chiqim qo'shish</button>
+        <button class="btn" style="background:var(--purple-light);color:var(--purple-text);border-color:rgba(124,58,237,.3)" onclick="openMentorSalaryModal()">🎓 Mentor oylik</button>
+        <div style="flex:1"></div>
+        <select class="fsel" id="fin-filter-type" onchange="renderFinance()">
+          <option value="">Barchasi</option>
+          <option value="income">💚 Kirim</option>
+          <option value="expense">🔴 Chiqim</option>
+          <option value="salary">🎓 Mentor oylik</option>
+        </select>
+      </div>
+
+      <!-- Tranzaksiyalar ro'yxati -->
+      <div class="fin-transactions" id="fin-transactions"></div>
+    </div>
+    <!-- ===================== /MOLIYA ===================== -->
+
+    <!-- SETTINGS -->
+    <div id="panel-settings" class="panel">
+      <div class="settings-wrap">
+        <div class="settings-card" id="sett-name-card">
+          <div class="settings-card-header">
+            <div class="settings-card-ic">🏷️</div>
+            <div>
+              <div class="settings-card-title" data-t="sett_name_title">CRM Nomi</div>
+              <div class="settings-card-sub" data-t="sett_name_sub">Tizim nomini o'zgartiring</div>
+            </div>
+          </div>
+          <div class="settings-card-body">
+            <div class="fg">
+              <label data-t="sett_crm_name_label">CRM Nomi</label>
+              <input type="text" id="sett-crm-name" placeholder="EduManage" oninput="previewCrmName()">
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;margin-top:8px">
+              <div style="font-size:12px;color:var(--text2)" data-t="sett_preview">Ko'rinish:</div>
+              <div style="font-size:18px;font-weight:800;letter-spacing:-.6px;background:linear-gradient(135deg,var(--accent),var(--teal));-webkit-background-clip:text;background-clip:text;color:transparent" id="sett-name-preview">EduManage</div>
+            </div>
+            <button class="btn btn-primary sett-save-btn" onclick="saveCrmName()" style="margin-top:14px" data-t="sett_save">💾 Saqlash</button>
+          </div>
+        </div>
+        <div class="settings-card" id="sett-logo-card">
+          <div class="settings-card-header">
+            <div class="settings-card-ic">🖼️</div>
+            <div>
+              <div class="settings-card-title" data-t="sett_logo_title">CRM Logotipi</div>
+              <div class="settings-card-sub" data-t="sett_logo_sub">Sidebar va login ekranidagi rasm</div>
+            </div>
+          </div>
+          <div class="settings-card-body">
+            <div style="display:flex;align-items:center;gap:20px;margin-bottom:16px">
+              <div id="sett-logo-preview" style="width:64px;height:64px;border-radius:16px;background:linear-gradient(135deg,var(--accent),var(--teal));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:26px;flex-shrink:0;overflow:hidden;border:2px solid var(--border2)">E</div>
+              <div>
+                <div style="font-size:13px;font-weight:600;color:var(--text)" data-t="sett_logo_current">Joriy logotip</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px" data-t="sett_logo_hint">JPG, PNG, WEBP · Max 2MB · 64×64 tavsiya</div>
+              </div>
+            </div>
+            <div class="sett-upload-zone" onclick="document.getElementById('sett-logo-input').click()">
+              <input type="file" id="sett-logo-input" accept="image/*" style="display:none" onchange="handleLogoUpload(this)">
+              <div style="font-size:28px;margin-bottom:6px">📁</div>
+              <div style="font-size:13px;font-weight:600;color:var(--text)" data-t="sett_upload_click">Bosib yuklang</div>
+              <div style="font-size:11px;color:var(--text3);margin-top:3px">yoki sudrab tashlang</div>
+            </div>
+            <button class="btn btn-del-outline sett-save-btn" onclick="removeLogo()" style="margin-top:10px;font-size:12px" data-t="sett_logo_remove">🗑 Logotipni o'chirish</button>
+          </div>
+        </div>
+        <div class="settings-card">
+          <div class="settings-card-header">
+            <div class="settings-card-ic">🎨</div>
+            <div>
+              <div class="settings-card-title" data-t="sett_theme_title">Fon va Rang Sxemasi</div>
+              <div class="settings-card-sub" data-t="sett_theme_sub">Yorug' yoki qorong'i rejim tanlang</div>
+            </div>
+          </div>
+          <div class="settings-card-body">
+            <div class="theme-grid">
+              <div class="theme-opt" id="theme-light" onclick="setTheme('light')">
+                <div class="theme-preview theme-preview-light"><div class="tp-sidebar"></div><div class="tp-main"><div class="tp-bar"></div><div class="tp-cards"><div class="tp-card"></div><div class="tp-card"></div></div></div></div>
+                <div class="theme-label" data-t="theme_light">☀️ Yorug'</div>
+              </div>
+              <div class="theme-opt" id="theme-auto" onclick="setTheme('auto')">
+                <div class="theme-preview theme-preview-auto"><div style="width:50%;height:100%;background:#f0f4f8"></div><div style="width:50%;height:100%;background:#0d1520"></div></div>
+                <div class="theme-label" data-t="theme_auto">🔄 Avtomatik</div>
+              </div>
+              <div class="theme-opt" id="theme-snow" onclick="setTheme('snow')">
+                <div class="theme-preview" style="background:linear-gradient(135deg,#e8f4fd,#f0f8ff);display:flex;align-items:center;justify-content:center;font-size:28px">❄️</div>
+                <div class="theme-label" data-t="theme_snow">❄️ Qor</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="settings-card">
+          <div class="settings-card-header">
+            <div class="settings-card-ic">🔤</div>
+            <div>
+              <div class="settings-card-title" data-t="sett_font_title">Matn o'lchami</div>
+              <div class="settings-card-sub" data-t="sett_font_sub">Interfeys yozuvlari katta-kichikligini sozlang</div>
+            </div>
+          </div>
+          <div class="settings-card-body">
+            <div class="font-size-row">
+              <button class="font-size-btn" id="fs-sm" onclick="setFontSize('sm')"><span style="font-size:11px;font-weight:700">A</span><span style="font-size:11px;color:var(--text2)" data-t="font_sm">Kichik</span></button>
+              <button class="font-size-btn" id="fs-md" onclick="setFontSize('md')"><span style="font-size:15px;font-weight:700">A</span><span style="font-size:11px;color:var(--text2)" data-t="font_md">O'rta</span></button>
+              <button class="font-size-btn" id="fs-lg" onclick="setFontSize('lg')"><span style="font-size:20px;font-weight:700">A</span><span style="font-size:11px;color:var(--text2)" data-t="font_lg">Katta</span></button>
+              <button class="font-size-btn" id="fs-xl" onclick="setFontSize('xl')"><span style="font-size:26px;font-weight:700">A</span><span style="font-size:11px;color:var(--text2)" data-t="font_xl">Juda katta</span></button>
+            </div>
+          </div>
+        </div>
+        <div class="settings-card">
+          <div class="settings-card-header">
+            <div class="settings-card-ic">🌈</div>
+            <div>
+              <div class="settings-card-title" data-t="sett_accent_title">Asosiy rang</div>
+              <div class="settings-card-sub" data-t="sett_accent_sub">Tugmalar va belgilar rangi</div>
+            </div>
+          </div>
+          <div class="settings-card-body">
+            <div class="accent-grid">
+              <div class="accent-swatch" data-color="blue" style="background:linear-gradient(135deg,#3b82f6,#6366f1)" onclick="setAccent('blue',this)"></div>
+              <div class="accent-swatch" data-color="teal" style="background:linear-gradient(135deg,#0d9488,#0ea5e9)" onclick="setAccent('teal',this)"></div>
+              <div class="accent-swatch" data-color="purple" style="background:linear-gradient(135deg,#7c3aed,#6366f1)" onclick="setAccent('purple',this)"></div>
+              <div class="accent-swatch" data-color="orange" style="background:linear-gradient(135deg,#ea580c,#d97706)" onclick="setAccent('orange',this)"></div>
+              <div class="accent-swatch" data-color="rose" style="background:linear-gradient(135deg,#e11d48,#ec4899)" onclick="setAccent('rose',this)"></div>
+              <div class="accent-swatch" data-color="green" style="background:linear-gradient(135deg,#059669,#10b981)" onclick="setAccent('green',this)"></div>
+            </div>
+          </div>
+        </div>
+        <div class="settings-card">
+          <div class="settings-card-header">
+            <div class="settings-card-ic">💾</div>
+            <div>
+              <div class="settings-card-title" data-t="sett_data_title">Ma'lumotlar</div>
+              <div class="settings-card-sub" data-t="sett_data_sub">Export, import va tozalash</div>
+            </div>
+          </div>
+          <div class="settings-card-body">
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <button class="btn sett-action-btn" onclick="exportData()">⬇ Ma'lumotlarni export qilish (JSON)</button>
+              <button class="btn sett-action-btn btn-warning" onclick="resetData()">🔄 Barcha ma'lumotlarni tiklash (Demo)</button>
+            </div>
+          </div>
+        </div>
+        <!-- ADMIN SELF CREDENTIALS CARD - faqat admin ko'radi -->
+        <div class="settings-card" id="admin-creds-card">
+          <div class="settings-card-header">
+            <div class="settings-card-ic">👑</div>
+            <div>
+              <div class="settings-card-title">Admin login / parol</div>
+              <div class="settings-card-sub">O'zingizning kirish ma'lumotlaringizni o'zgartiring</div>
+            </div>
+          </div>
+          <div class="settings-card-body">
+            <div style="font-size:12px;color:var(--text3);margin-bottom:10px">Joriy login: <b style="color:var(--text);font-family:'JetBrains Mono',monospace" id="sett-admin-current">admin</b></div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div class="fg">
+                <label style="font-size:12px;font-weight:600;color:var(--text3)">Yangi login</label>
+                <input type="text" id="sett-admin-login" placeholder="admin" autocomplete="off" style="margin-top:4px">
+              </div>
+              <div class="fg">
+                <label style="font-size:12px;font-weight:600;color:var(--text3)">Yangi parol</label>
+                <input type="password" id="sett-admin-pass" placeholder="••••••••" autocomplete="new-password" style="margin-top:4px">
+              </div>
+              <div class="fg">
+                <label style="font-size:12px;font-weight:600;color:var(--text3)">Parolni qayta kiriting</label>
+                <input type="password" id="sett-admin-pass2" placeholder="••••••••" autocomplete="new-password" style="margin-top:4px">
+              </div>
+              <button class="btn btn-primary" onclick="saveAdminCredentials()" style="margin-top:4px">👑 Saqlash</button>
+              <div style="font-size:11px;color:var(--text3);line-height:1.5;margin-top:4px">⚠️ O'zgartirgandan keyin yangi login/parol bilan kiring. Eslab qolmasangiz, brauzer localStorage'ini tozalash kerak bo'ladi.</div>
+            </div>
+          </div>
+        </div>
+        <!-- MENTOR CREDENTIALS CARD - faqat admin ko'radi -->
+        <div class="settings-card" id="mentor-creds-card">
+          <div class="settings-card-header">
+            <div class="settings-card-ic">🔑</div>
+            <div>
+              <div class="settings-card-title">Mentor login / parol</div>
+              <div class="settings-card-sub">Mentorlarga alohida kirish hisoblari bering</div>
+            </div>
+          </div>
+          <div class="settings-card-body">
+            <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px">
+              <div class="fg">
+                <label style="font-size:12px;font-weight:600;color:var(--text3)">Mentor tanlang</label>
+                <select id="sett-mentor-select" class="fsel" style="width:100%;margin-top:4px" onchange="renderMentorCredsList()">
+                  <option value="">— Mentor tanlang —</option>
+                </select>
+              </div>
+              <div class="fg">
+                <label style="font-size:12px;font-weight:600;color:var(--text3)">Login</label>
+                <input type="text" id="sett-mentor-login" placeholder="mentor_login" autocomplete="off" style="margin-top:4px">
+              </div>
+              <div class="fg">
+                <label style="font-size:12px;font-weight:600;color:var(--text3)">Parol</label>
+                <input type="password" id="sett-mentor-pass" placeholder="••••••••" autocomplete="new-password" style="margin-top:4px">
+              </div>
+              <button class="btn btn-primary" onclick="saveMentorCredentials()" style="margin-top:4px">🔑 Saqlash</button>
+            </div>
+            <div id="mentor-creds-list"></div>
+          </div>
+        </div>
+        <!-- STUDENT CREDENTIALS CARD - faqat admin ko'radi -->
+        <div class="settings-card" id="student-creds-card">
+          <div class="settings-card-header">
+            <div class="settings-card-ic">🧑‍💻</div>
+            <div>
+              <div class="settings-card-title">Talaba login / parol</div>
+              <div class="settings-card-sub">Talabalarga alohida kirish hisoblari bering</div>
+            </div>
+          </div>
+          <div class="settings-card-body">
+            <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px">
+              <div class="fg">
+                <label style="font-size:12px;font-weight:600;color:var(--text3)">Talaba tanlang</label>
+                <select id="sett-student-select" class="fsel" style="width:100%;margin-top:4px" onchange="renderStudentCredsList()">
+                  <option value="">— Talaba tanlang —</option>
+                </select>
+              </div>
+              <div class="fg">
+                <label style="font-size:12px;font-weight:600;color:var(--text3)">Login</label>
+                <input type="text" id="sett-student-login" placeholder="student_login" autocomplete="off" style="margin-top:4px">
+              </div>
+              <div class="fg">
+                <label style="font-size:12px;font-weight:600;color:var(--text3)">Parol</label>
+                <input type="password" id="sett-student-pass" placeholder="••••••••" autocomplete="new-password" style="margin-top:4px">
+              </div>
+              <button class="btn btn-primary" onclick="saveStudentCredentials()" style="margin-top:4px">🔑 Saqlash</button>
+            </div>
+            <div id="student-creds-list"></div>
+          </div>
+        </div>
+        <!-- STUDENT PROFILE CARD - faqat talaba ko'radi -->
+        <!-- STUDENT MOTIVATION CARD - faqat talaba ko'radi -->
+        <div class="settings-card" id="student-motivation-card" style="display:none">
+          <div class="settings-card-header">
+            <div class="settings-card-ic">🎯</div>
+            <div>
+              <div class="settings-card-title" id="smc-title">Maqsadim</div>
+              <div class="settings-card-sub" id="smc-sub">O'quv maqsadingizni belgilang</div>
+            </div>
+          </div>
+          <div class="settings-card-body" id="student-motivation-card-body">
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- STUDENT GOALS PANEL -->
+    <div id="panel-student-goals" class="panel">
+      <div class="settings-wrap" id="student-goals-panel-body">
+      </div>
+    </div>
+
+    <!-- MENTOR AI PANEL -->
+    <div id="panel-mentor-ai" class="panel" style="padding:0">
+      <div id="mentor-ai-wrap" style="height:100%"></div>
+    </div>
+
+    <!-- STUDENT AI PANEL -->
+    <div id="panel-student-ai" class="panel" style="padding:0">
+      <div id="student-ai-wrap" style="height:100%"></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- MODALS -->
+<div class="overlay" id="overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-head">
+      <div class="modal-title" id="m-title">Qo'shish</div>
+      <button class="m-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="m-body"></div>
+    <div class="modal-foot">
+      <button class="btn" onclick="closeModal()" data-t="cancel">Bekor</button>
+      <button class="btn btn-primary" onclick="saveModal()" data-t="save">💾 Saqlash</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="detail-overlay" onclick="if(event.target===this)closeDetail()">
+  <div class="modal modal-wide" onclick="event.stopPropagation()">
+    <div class="modal-head">
+      <div class="modal-title" id="detail-title">Ma'lumot</div>
+      <button class="m-close" onclick="closeDetail()">✕</button>
+    </div>
+    <div class="modal-body" id="detail-body"></div>
+    <div class="modal-foot" id="detail-foot">
+      <button class="btn" onclick="closeDetail()" data-t="close">Yopish</button>
+      <button class="btn btn-primary" id="detail-edit-btn" data-t="edit_btn">✏️ Tahrirlash</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="stat-overlay" onclick="if(event.target===this)closeStatModal()">
+  <div class="modal modal-att-fullscreen" id="stat-modal-inner" onclick="event.stopPropagation()">
+    <div class="att-header">
+      <div style="display:flex;align-items:center;gap:14px;flex:1;min-width:0">
+        <div>
+          <div style="font-size:18px;font-weight:800;letter-spacing:-.5px" id="stat-modal-title">Davomat</div>
+          <div style="font-size:12px;color:var(--text2);margin-top:2px" id="att-group-info"></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+        <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2)">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:26px;height:22px;border-radius:5px;border:1.5px solid var(--teal);background:var(--teal-light);color:var(--teal-text);font-size:11px;font-weight:700;font-family:'JetBrains Mono',monospace">K</span>Keldi
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:26px;height:22px;border-radius:5px;border:1.5px solid var(--amber);background:var(--amber-light);color:var(--amber-text);font-size:11px;font-weight:700;font-family:'JetBrains Mono',monospace;margin-left:8px">Y</span>Yo'q
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:26px;height:22px;border-radius:5px;border:1.5px solid var(--purple);background:var(--purple-light);color:var(--purple-text);font-size:11px;font-weight:700;font-family:'JetBrains Mono',monospace;margin-left:8px">S</span>Sababli
+        </div>
+        <button class="m-close" onclick="closeStatModal()" style="margin-left:8px">✕</button>
+      </div>
+    </div>
+    <div class="att-month-nav" id="att-month-nav"></div>
+    <div class="att-body"><div id="att-table-wrap"></div></div>
+    <div style="padding:10px 20px;border-top:1px solid var(--border);font-size:11px;color:var(--text3);background:var(--bg2);flex-shrink:0;display:flex;align-items:center;gap:16px">
+      <span>💾 O'zgarishlar avtomatik saqlanadi · K=keldi · Y=yo'q · S=sababli · 12 dars = Qarzdor</span>
+      <span id="att-save-indicator" style="color:var(--teal-text);font-weight:600"></span>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="del-overlay" onclick="if(event.target===this)closeDelModal()">
+  <div class="modal del-modal" onclick="event.stopPropagation()">
+    <div class="modal-head">
+      <div class="modal-title" style="color:var(--text)">🗑 O'chirishni tasdiqlang</div>
+      <button class="m-close" onclick="closeDelModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="del-warning"><b>Diqqat!</b> Bu amalni qaytarib bo'lmaydi. O'chirish uchun nomni aniq yozing:<br><br>
+        <code id="del-target-name" style="background:var(--bg4);padding:4px 10px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text)"></code>
+      </div>
+      <div style="margin-top:12px">
+        <label style="font-size:12px;font-weight:600;color:var(--text3);display:block;margin-bottom:6px">Nomni yozing</label>
+        <input class="del-confirm-input" id="del-input" type="text" placeholder="Nomni kiriting..." oninput="checkDelInput()">
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn" onclick="closeDelModal()">Bekor qilish</button>
+      <button class="btn btn-del-confirm" id="del-confirm-btn" disabled onclick="executeDelete()" style="opacity:.4;cursor:not-allowed">O'chirish</button>
+    </div>
+  </div>
+</div>
+
+<!-- FINANCE MODALS -->
+<div class="overlay" id="fin-overlay" onclick="if(event.target===this)closeFinModal()">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-head">
+      <div class="modal-title" id="fin-modal-title">Kirim qo'shish</div>
+      <button class="m-close" onclick="closeFinModal()">✕</button>
+    </div>
+    <div class="modal-body" id="fin-modal-body"></div>
+    <div class="modal-foot">
+      <button class="btn" onclick="closeFinModal()">Bekor</button>
+      <button class="btn btn-primary" onclick="saveFinTransaction()">💾 Saqlash</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="salary-overlay" onclick="if(event.target===this)closeMentorSalaryModal()">
+  <div class="modal modal-wide" onclick="event.stopPropagation()">
+    <div class="modal-head">
+      <div class="modal-title">🎓 Mentor oylik (20%)</div>
+      <button class="m-close" onclick="closeMentorSalaryModal()">✕</button>
+    </div>
+    <div class="modal-body" id="salary-modal-body"></div>
+    <div class="modal-foot">
+      <button class="btn" onclick="closeMentorSalaryModal()">Yopish</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<div class="toast" id="toast"></div>
